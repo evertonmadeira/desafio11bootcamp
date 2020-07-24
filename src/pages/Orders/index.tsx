@@ -32,7 +32,14 @@ const Orders: React.FC = () => {
 
   useEffect(() => {
     async function loadOrders(): Promise<void> {
-      // Load orders from API
+      const { data } = await api.get<Food[]>(`orders`);
+
+      const allOrders = data.map(item => {
+        item.formattedValue = formatValue(item.price);
+        return item;
+      });
+
+      setOrders(allOrders);
     }
 
     loadOrders();
